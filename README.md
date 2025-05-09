@@ -78,9 +78,9 @@ neo4j-cyber-threat-intelligence/
    ```
  
 2. **Access Neo4j Browser**:
-    - URL: [http://localhost:7474](http://localhost:7474)
-    - Username: `neo4j`
-    - Password: `password`
+*   URL: [http://localhost:7474](http://localhost:7474)
+*   Username: `neo4j`
+*   Password: `password`
     
 3. **Verify the connection**:
    ```bash
@@ -117,14 +117,13 @@ DETACH DELETE n;
 ## Create Indexing, and post-import relationships
 
 1. Create indexes, fulltext indexes, and post-import relationships use the predefined Cyphers Scripts:
-    ```bash
-    docker exec -i neo4j-cti cypher-shell -u neo4j -p password < cypher/create_indexes.cypher
-    docker exec -i neo4j-cti cypher-shell -u neo4j -p password < cypher/fulltext_indexes.cypher
-    docker exec -i neo4j-cti cypher-shell -u neo4j -p password < cypher/post_import_relations.cypher
-    ```
- 
+   ```bash
+   docker exec -i neo4j-cti cypher-shell -u neo4j -p password < cypher/create_indexes.cypher
+   docker exec -i neo4j-cti cypher-shell -u neo4j -p password < cypher/fulltext_indexes.cypher
+   docker exec -i neo4j-cti cypher-shell -u neo4j -p password < cypher/post_import_relations.cypher
+   ```
 2. Verify the data:
-    ```cypher
+   ```cypher 
     // Verify Indexes
     CALL db.indexes;
 
@@ -151,44 +150,42 @@ DETACH DELETE n;
     // Verify IOC Associations
     MATCH (c:Cluster)-[:HAS_IOC]->(ioc)
     RETURN c.name AS Cluster, labels(ioc) AS IOC_Type, ioc
-    LIMIT 5;
+    LIMIT 5; 
     ```
- 
 ---
   
 ### Relationships Created:
 1. **IP → Domain (RELATED_TO)**
-    - Creates relationships between IP addresses and related ioc.
-    - Cypher Query:
-    ```cypher
-    MATCH (ip:IP)-[:RELATED_TO]->(ioc)
-RETURN ip.address AS IP, labels(ioc) AS Type, ioc LIMIT 5;
-    ```
+*   Creates relationships between IP addresses and related ioc.
+*   Cypher Query:
+   ```cypher
+   MATCH (ip:IP)-[:RELATED_TO]->(ioc)
+   RETURN ip.address AS IP, labels(ioc) AS Type, ioc LIMIT 5;
+   ```
  
 2. **URL → Hostname (HOSTED_ON)**
-    - Links URLs to their respective hostnames.
-    - Cypher Query:
-    ```cypher
+*   Links URLs to their respective hostnames.
+*   Cypher Query:
+   ```cypher
     MATCH (u:URL)-[:HOSTED_ON]->(h:Hostname)
     RETURN u, h LIMIT 5;
-    ```
+   ```
  
 3. **FileHash → YARARule (MATCHES)**
-    - Associates file hashes with YARA rules.
-    - Cypher Query:
-    ```cypher
+*   Associates file hashes with YARA rules.
+*   Cypher Query:
+   ```cypher
     MATCH (f:FileHash)-[:MATCHES]->(y:YARARule)
     RETURN f, y LIMIT 5;
-    ```
+   ```
  
 4. **Hostname → Domain (SUBDOMAIN_OF)**
-    - Maps subdomains to their parent domains.
-    - Cypher Query:
-    ```cypher
-   MATCH (h:Hostname)-[:SUBDOMAIN_OF]->(d:Domain)
-RETURN h.name AS Subdomain, d.name AS ParentDomain
-LIMIT 5;
-    ```
+*   Maps subdomains to their parent domains.
+*   Cypher Query:
+   ```cypher
+   MATCH (h:Hostname)-[:SUBDOMAIN_OF]->(d:Domain)
+   RETURN h.name AS Subdomain, d.name AS ParentDomain LIMIT 5;
+   ```
 
 
  
@@ -221,9 +218,9 @@ docker logs neo4j-cti
 ---
  
 ## Next Steps
-- Add GDS (Graph Data Science) for threat prediction, implement GDS-based clustering for anomaly detection and threat grouping.
-- Leverage `apoc.periodic.iterate` to keep relationships in sync.
-- Implement real-time streaming with Kafka
+*   Add GDS (Graph Data Science) for threat prediction, implement GDS-based clustering for anomaly detection and threat grouping.
+*   Leverage `apoc.periodic.iterate` to keep relationships in sync.
+*   Implement real-time streaming with Kafka
 
 ---
  
@@ -232,18 +229,18 @@ docker logs neo4j-cti
 ## Member Contributions
  
 - **Emanuel Baca**:
-  - Co-designed and implemented Neo4j graph schemas
-  - Developed Cypher queries for advanced threat analysis
-  - Contributed to indexing strategies and performance tuning
-  - Collaborated on data optimization and relationship building
+   *   Co-designed and implemented Neo4j graph schemas
+   *   Developed Cypher queries for advanced threat analysis
+   *   Contributed to indexing strategies and performance tuning
+   *   Collaborated on data optimization and relationship building
  
 - **Fang Fang**:
-  - Co-designed and implemented Neo4j graph schemas
-  - Developed Cypher queries for data import and relationship creation
-  - GCP Test Environment setup and dataset import
-  - Configured Docker Compose and Dockerfile for Neo4j deployment
-  - Contributed to indexing strategies and performance tuning
-  - Collaborated on data optimization and relationship building
+   *   Co-designed and implemented Neo4j graph schemas
+   *   Developed Cypher queries for data import and relationship creation
+   *   GCP Test Environment setup and dataset import
+   *   Configured Docker Compose and Dockerfile for Neo4j deployment
+   *   Contributed to indexing strategies and performance tuning
+   *   Collaborated on data optimization and relationship building
  
  
 ---
