@@ -125,7 +125,7 @@ DETACH DELETE n;
 2. Verify the data:
    ```cypher 
     // Verify Indexes
-    CALL db.indexes;
+    SHOW INDEXES;
 
     // Verify Data Import
     MATCH (p:Pulse) RETURN p LIMIT 5;
