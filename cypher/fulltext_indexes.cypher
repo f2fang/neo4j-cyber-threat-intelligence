@@ -16,3 +16,5 @@ CREATE FULLTEXT INDEX non_common_tld_index IF NOT EXISTS FOR (n:URL|Domain|Hostn
 
 // FileHash Fulltext Index
 CREATE FULLTEXT INDEX filehash_fulltext_index IF NOT EXISTS FOR (f:FileHash) ON EACH [f.hash];
+
+
